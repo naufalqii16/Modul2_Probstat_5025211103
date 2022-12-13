@@ -23,6 +23,8 @@ Dalam mencari standar deviasi dari data selish tersebut, digunakan beberapa cara
 before <- c(78, 75, 67, 77, 70, 72, 78, 74, 77)
 after <- c(100, 95, 70, 90, 90, 90, 89, 90, 100)
 ```
+![1a](https://user-images.githubusercontent.com/115441787/207205302-fe5dea20-8f7c-4abb-8ee0-dd19f2bec5e3.png)
+
 
 `Kedua`, cari selisih antar data dengan `index yang sama`. Kemudian, dilakukan pencarian rata-rata dari selisih-selisih tersebut untuk digunakan dalam mencari nilai standar deviasinya.
 
@@ -41,6 +43,9 @@ Solusi dilakukan dengan menggunakan fungsi `t.test()` sebagai berikut dengan par
 ```R
 t.test(after, before, paired = TRUE)
 ```
+
+![](https://user-images.githubusercontent.com/115441787/207205523-f53b8c5e-b3c4-4cc8-94c1-8dac2acdbdb9.png)
+
 > c. tentukanlah apakah terdapat pengaruh yang signifikan secara statistika dalam hal kadar saturasi oksigen , sebelum dan sesudah melakukan aktivitas 𝐴 jika diketahui tingkat signifikansi 𝛼 = 5% serta H0 : “tidak ada pengaruh yang signifikan secara statistika dalam hal kadar saturasi oksigen , sebelum dan sesudah melakukan aktivitas 𝐴”
 
 Berdasarkan hasil dari poin sebelumnya, diketahui bahwa nilai probabilitas dari uji 𝑡 (p-value) adalah `6.003e-05` atau `0.00006003`. Karena nilai probabilitas tersebut lebih kecil dibandingkan tingkat signifikansi `𝛼 = 0.05`, maka hipotesis nol ditolak dan hipotesis alternatif diterima.
@@ -71,6 +76,7 @@ Fungsi yang digunakan adalah fungsi tsum.test() dengan parameter-parameter yang 
 ```R
 tsum.test(mean.x = 23500, s.x = 3900, n.x = 100)
 ```
+![](https://user-images.githubusercontent.com/115441787/207205937-cfb565af-1690-4ada-9dd1-a6ec1fa5c6d7.png)
 
 Hal tersebut berarti dengan interval kepercayaan 95%, rata-rata jarak tempuh mobil per tahun berada di antara 22.726,16 km dan 24.273,84 km.
 
@@ -113,28 +119,23 @@ tsum.test(mean.x=3.64, s.x = 1.67, n.x = 19,
           mean.y =2.79 , s.y = 1.32, n.y = 27, 
           alternative = "greater", var.equal = TRUE)
 ```
+![](https://user-images.githubusercontent.com/115441787/207206174-91b4e824-f1e0-4c77-becf-efbd2341bf93.png)
 
-> c. Lakukan Uji Statistik (df =2)(5)
 
-Digunakan sebuah package library Mosaic untuk membuat solusi permasalahannya.
+> c. Lakukan Uji Statistik (df =2)
 
-```R
-install.packages("mosaic")
-library(mosaic)
-```
-Selanjutnya, digunakan fungsi plotDist() untuk mendapatkan gambaran atau visualisasi dari statistik dengan derajat bebas sebesar 2.
-
-```R
-plotDist(dist = 't', df = 2, col = "blue")
-```
+dengan perhitungan tersebut didapatkan t = 1.9267, dan p-value = 0.03024. 
 
 > d. Nilai Kritikal(3
 
 Digunakan fungsi qchisq() dengan nilai df sesuai dengan yang telah terlampir untuk mendapatkan nilai kritikal.
 
 ```R
-qchisq(p = 0.05, df = 2, lower.tail = FALSE)
+qt(0.025,df = 2,lower.tail=FALSE)
+qt(0.025,df = 2,lower.tail=TRUE)
 ```
+
+![](https://user-images.githubusercontent.com/115441787/207313965-21524c0c-1563-4793-8e9c-bc285c0cbf5a.png)
 
 
 
@@ -166,27 +167,35 @@ Maka Kerjakan atau Carilah:
 `Pertama`, memasukkan data dari dataset yang disediakan.
 
 ```R
-dataoneway <- read.table("data_soal_4.txt", h = T)
-attach(dataoneway)
-names(dataoneway)
+mydata <- read.table("Data_soal_4.txt", h = T)
+attach(mydata)
+names(mydata)
 ```
+
+![](https://user-images.githubusercontent.com/115441787/207295159-d490dafe-c1ba-42c6-a14b-ae44bf7cb1af.png)
+
+
 
 Kedua, melakukan grouping sesuai dengan label yang telah ditentukan sekaligus melakukan pengecekan value dalam grup yang dihasilkan.
 
 ```R
-dataoneway$Group <- as.factor(dataoneway$Group)
-dataoneway$Group = factor(dataoneway$Group, labels = c("Kucing Oren", "Kucing Hitam", "Kucing Putih"))
+mydata$Group <- as.factor(mydata$Group)
+mydata$Group = factor(mydata$Group, labels = c("Kucing Oren", "Kucing Hitam", "Kucing Putih"))
 
-class(dataoneway$Group)
+class(mydata$Group)
 ```
+
+![](https://user-images.githubusercontent.com/115441787/207314826-ec779906-4b7f-4486-9a90-c5fe4189a3ef.png)
 
 Ketiga, membagi tiap valuer menjadi 3 bagian sesuai dengan label grup yang telah dibuat.
 
 ```R
-Group1 <- subset(dataoneway, Group == "Kucing Oren")
-Group2 <- subset(dataoneway, Group == "Kucing Hitam")
-Group3 <- subset(dataoneway, Group == "Kucing Putih")
+Group1 <- subset(mydata, Group == "Kucing Oren")
+Group2 <- subset(mydata, Group == "Kucing Hitam")
+Group3 <- subset(mydata, Group == "Kucing Putih")
 ```
+![](https://user-images.githubusercontent.com/115441787/207315036-ea6609d9-ba7c-4088-9b29-ff2fe1336f7d.png)
+
 
 Keempat, menggambar plot kuantil normal untuk setiap grup untuk melihat distribusi data dan outlier utama dalam homogenitas varians pada masing-masing grup.
 
@@ -194,18 +203,23 @@ Keempat, menggambar plot kuantil normal untuk setiap grup untuk melihat distribu
 qqnorm(Group1$Length)
 qqline(Group1$Length)
 ```
+![](https://user-images.githubusercontent.com/115441787/207295095-bae65c9b-a25d-40b9-ac2e-1d7758df4fa2.png)
 
 
 ```R
 qqnorm(Group2$Length)
 qqline(Group2$Length)
 ```
+![](https://user-images.githubusercontent.com/115441787/207295466-d4e6a3ee-1b42-4c14-91f0-4cfde35208bf.png)
+
 
 
 ```R
 qqnorm(Group3$Length)
 qqline(Group3$Length)
 ```
+![](https://user-images.githubusercontent.com/115441787/207295640-a7f1aa5e-06de-413d-804c-1f19f97ddf4f.png)
+
 
 > b. carilah atau periksalah Homogeneity of variances nya , Berapa nilai p yang didapatkan? , Apa hipotesis dan kesimpulan yang dapat diambil ?
 
@@ -213,8 +227,9 @@ qqline(Group3$Length)
 Untuk mendapatkan homogeneity of variances, digunakan sebuah fungsi yaitu fungsi bartlett.test() dengan parameter dari data yang telah dimasukkan sebelumnya.
 
 ```R
-bartlett.test(Length ~ Group, data = dataoneway)
+bartlett.test(Length ~ Group, data = mydata)
 ```
+![](https://user-images.githubusercontent.com/115441787/207295986-f82b7a13-a8c3-4250-80aa-6b5482aa6e25.png)
 
 Dari hasil uji fungsi bartlett.test() didapatkan p-value sebesar 0.8054 yang lebih dari nilai 𝛼 = 0.05 sehingga asumsi kesamaan varians terpenuhi.
 
@@ -224,9 +239,11 @@ Dari hasil uji fungsi bartlett.test() didapatkan p-value sebesar 0.8054 yang leb
 Untuk membuat uji anova dan model liniernya, digunakan fungsi yaitu fungsi lm() dan anova() dengan parameter dari data yang telah dimasukkan sebelumnya.
 
 ```R
-model1 = lm(Length ~ Group, data = dataoneway)
+model1 = lm(Length ~ Group, data = mydata)
 anova(model1)
 ```
+![](https://user-images.githubusercontent.com/115441787/207296193-70b75e13-cab0-4b3b-9d47-94ee53e88d60.png)
+
 
 > d. Dari Hasil Poin C , Berapakah nilai-p ? ,  Apa yang dapat Anda simpulkan dari H0?
 
@@ -242,6 +259,8 @@ Untuk verifikasi jawaban model 1 sebelumnya, digunakan sebuah fungsi yaitu fungs
 TukeyHSD(aov(model1))
 ```
 
+![](https://user-images.githubusercontent.com/115441787/207296460-246ce540-22f4-4163-a049-9888ce190d3e.png)
+
 Dari hasil uji Tukey, dapat dilihat kombinasi dari kelompok mana yang secara signifikan berbeda. Jika menggunakan 𝛼 = 5%, perbedaan panjang kucing yang signifikan adalah grup 2 (Kucing Hitam) terhadap grup 1 (Kucing Oren) dan grup 3 (Kucing Putih).
 
 > f. Visualisasikan data dengan ggplot2
@@ -252,8 +271,10 @@ Digunakan fungsi ggplot() untuk melakukan visualisasi data.
 install.packages("ggplot2")
 library("ggplot2")
 
-ggplot(dataoneway, aes(x = Group, y = Length)) + geom_boxplot(fill = "grey80", colour = "black") + scale_x_discrete() + xlab("Treatment Group") + ylab("Length (cm)")
+ggplot(mydata, aes(x = Group, y = Length)) + geom_boxplot(fill = "yellow", colour = "black") + scale_x_discrete() + xlab("Jenis Kucing") + ylab("Panjang Kucing (cm)")
 ```
+
+![](https://user-images.githubusercontent.com/115441787/207315772-f77a3ab3-51f5-41a6-974d-0551afc8a481.jpg)
 
 
 # SOAL 5
@@ -277,7 +298,7 @@ library(dplyr)
 Kedua, memasukkan dan membaca dataset yang telah disediakan.
 
 ```R
-GTL <- read_csv("data_soal_5.csv")
+GTL <- read_csv("Data_soal_5.csv")
 head(GTL)
 ```
 Ketiga, melakukan observasi pada dataset.
@@ -292,6 +313,7 @@ Keempat, melakukan viasualisasi dengan menggunakan simple plot dengan fungsi qpl
 ```R
 qplot(x = Temp, y = Light, geom = "point", data = GTL) + facet_grid(.~Glass, labeller = label_both)
 ```
+![](https://user-images.githubusercontent.com/115441787/207317681-310d1f56-d0cf-4256-8883-513e42e5c565.png)
 
 > b. Lakukan uji ANOVA dua arah
 
@@ -302,6 +324,7 @@ GTL$Glass <- as.factor(GTL$Glass)
 GTL$Temp_Factor <- as.factor(GTL$Temp)
 str(GTL)
 ```
+![](https://user-images.githubusercontent.com/115441787/207317854-371b4dac-18fe-4af2-b799-eec4a3d2540f.png)
 
 Kedua, melakukan analisis of variance (AoV) dengan fungsi summary(aov()) sebagai berikut.
 
@@ -309,6 +332,10 @@ Kedua, melakukan analisis of variance (AoV) dengan fungsi summary(aov()) sebagai
 anova <- aov(Light ~ Glass*Temp_Factor, data = GTL)
 summary(anova)
 ```
+
+![](https://user-images.githubusercontent.com/115441787/207317961-b7bda75a-163b-4965-8f7d-fb0b2f9ed0d6.png)
+
+
 
 > c. Tampilkan tabel dengan mean dan standar deviasi keluaran cahaya untuk setiap perlakuan (kombinasi kaca pelat muka dan suhu operasi)
 
@@ -320,6 +347,8 @@ data_summary <- group_by(GTL, Glass, Temp) %>%
   arrange(desc(mean))
 print(data_summary)
 ```
+![](https://user-images.githubusercontent.com/115441787/207318059-a692333a-c31f-4cbb-9e67-e068c80bf805.png)
+
 
 > d. Lakukan uji Tukey
 
@@ -329,6 +358,10 @@ Pengujian Tukey menggunakan fungsi TukeyHSD() sebagai berikut.
 tukey <- TukeyHSD(anova)
 print(tukey)
 ```
+![](https://user-images.githubusercontent.com/115441787/207318143-facbf941-cd9d-4789-80eb-c57a087b22cb.png)
+
+![](https://user-images.githubusercontent.com/115441787/207318255-b8947789-1758-4bfa-b7ce-c9f05696c655.png)
+
 
 > e. Gunakan compact letter display untuk menunjukkan perbedaan signifikan antara uji Anova dan uji Tukey
 
@@ -339,6 +372,9 @@ tukey.cld <- multcompLetters4(anova, tukey)
 print(tukey.cld)
 ```
 
+![](https://user-images.githubusercontent.com/115441787/207318435-f2b88157-6442-49b2-8de8-ce35c6ea5602.png)
+
+
 Kedua, menambahkan compact letter display tersebut ke tabel dengan mean dan standar deviasi yang telah dibuat sebelumnya.
 
 ```R
@@ -347,3 +383,4 @@ data_summary$Tukey <- cld$Letters
 print(data_summary)
 ```
 
+![](https://user-images.githubusercontent.com/115441787/207318498-a13ab403-040b-45fd-908f-37a225e6181d.png)
